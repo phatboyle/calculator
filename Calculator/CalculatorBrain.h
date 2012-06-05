@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface CalculatorBrain : NSObject
-//- (void)pushOperand;
+- (void)pushOperand;
 - (double)performOperation:(NSString *)operation;
 
 @property (nonatomic, readonly) id program;

@@ -29,6 +29,10 @@
     return [self.programStack copy];
 }
 
+-(void)pushOperand
+{
+    
+}
 
 
 
@@ -74,7 +78,7 @@
             result = sqrt([self popOperandOffProgramStack:stack]);
         } else if ([@"pi" isEqualToString:operation]){
             double PI = M_PI;
-            // push operand
+            [self pushOperand];
             result = [self popOperandOffProgramStack:stack];
         }    
     }    
