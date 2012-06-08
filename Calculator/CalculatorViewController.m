@@ -66,6 +66,19 @@
     }
 }
 
+- (IBAction)clearPressed {
+    self.display.text=@"0";
+    [self.brain clearOperands];
+    self.brainStatus.text=@"";
+}
+
+
+
+- (IBAction)piPressed {
+    self.display.text=@"3.1415927";
+}
+
+
 
 - (IBAction)operationPressed:(id)sender 
 {

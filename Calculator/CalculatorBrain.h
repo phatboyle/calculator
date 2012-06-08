@@ -12,8 +12,12 @@
 - (void)test;
 - (void)pushOperand;
 - (double)performOperation:(NSString *)operation;
+<<<<<<< HEAD
 
 @property (nonatomic, readonly) id program;
 + (NSString *)descriptionOfProgram:(id)program;
 + (double)runProgram:(id)program;
+=======
+- (void)clearOperands;
+>>>>>>> assign1
 @end

@@ -36,6 +36,17 @@
 -(void)test{
     
 }
+- (void)clearOperands
+{
+    NSNumber *operandObject = [self.operandStack lastObject];
+    if (operandObject) {
+        [self.operandStack removeLastObject];
+        NSLog(@"clearOperands %@",operandObject);
+        [self clearOperands];  
+        
+    }
+    
+}
 
 
 
@@ -54,6 +65,7 @@
 + (double)popOperandOffProgramStack:(NSMutableArray *)stack
 {
     double result=0;
+<<<<<<< HEAD
     id topOfStack = [stack lastObject];
     if (topOfStack) [stack removeLastObject];
     if ([topOfStack isKindOfClass:[NSNumber class]])
@@ -87,6 +99,7 @@
     }    
         return result;
         
+
 }
 
 
