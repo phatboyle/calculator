@@ -41,6 +41,17 @@
     if (operandObject) [self.operandStack removeLastObject];
     return [operandObject doubleValue];
 }
+- (void)clearOperands
+{
+    NSNumber *operandObject = [self.operandStack lastObject];
+    if (operandObject) {
+        [self.operandStack removeLastObject];
+        NSLog(@"clearOperands %@",operandObject);
+        [self clearOperands];  
+        
+    }
+    
+}
 
 
 - (double)performOperation:(NSString *)operation
@@ -62,11 +73,12 @@
         result = cos([self popOperand]);
     } else if ([(@"sqrt") isEqualToString:operation]){
         result = sqrt([self popOperand]);
-    } else if ([@"pi" isEqualToString:operation]){
-        double PI = [@"3.1415927" doubleValue];
-        [self pushOperand:PI];
-        result = [self popOperand];
-    }
+    } 
+//    else if ([@"pi" isEqualToString:operation]){
+//        double PI = [@"3.1415927" doubleValue];
+//        [self pushOperand:PI];
+//        result = [self popOperand];
+//}
     
     
     [self pushOperand:result];
