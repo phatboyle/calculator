@@ -73,13 +73,6 @@
 }
 
 
-
-- (IBAction)piPressed {
-    self.display.text=@"3.1415927";
-}
-
-
-
 - (IBAction)operationPressed:(id)sender 
 {
     NSLog(@"operationPressed %@ ", [sender currentTitle] );

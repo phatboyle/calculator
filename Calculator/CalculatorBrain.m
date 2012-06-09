@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+// 
+
 #import "CalculatorBrain.h"
 //#import "math.h"
 
@@ -29,26 +31,22 @@
     return [self.programStack copy];
 }
 
--(void)pushOperand
+-(void)pushOperand:(double)operand
 {
-    
+    [self.programStack addObject:[NSNumber numberWithDouble:operand]];
 }
--(void)test{
-    
-}
+
 - (void)clearOperands
 {
-    NSNumber *operandObject = [self.operandStack lastObject];
+    NSNumber *operandObject = [self.programStack lastObject];
     if (operandObject) {
-        [self.operandStack removeLastObject];
+        [self.programStack removeLastObject];
         NSLog(@"clearOperands %@",operandObject);
         [self clearOperands];  
         
     }
     
 }
-
-
 
 - (double)performOperation:(NSString *)operation
 {
@@ -60,12 +58,10 @@
 {
     return @"Implement this in Homework #2";
 }
-     
 
 + (double)popOperandOffProgramStack:(NSMutableArray *)stack
 {
     double result=0;
-<<<<<<< HEAD
     id topOfStack = [stack lastObject];
     if (topOfStack) [stack removeLastObject];
     if ([topOfStack isKindOfClass:[NSNumber class]])
@@ -89,13 +85,11 @@
             result = sin([self popOperandOffProgramStack:stack]);
         } else if ([@"cos" isEqualToString:operation]){
             result = cos([self popOperandOffProgramStack:stack]);
-        } else if ([(@"sqrt") isEqualToString:operation]){
+        } else if ([(@"√") isEqualToString:operation]){
             result = sqrt([self popOperandOffProgramStack:stack]);
-        } else if ([@"pi" isEqualToString:operation]){
-            double PI = M_PI;
-            [self pushOperand];
-            result = [self popOperandOffProgramStack:stack];
-        }    
+        } else if ([@"π" isEqualToString:operation]){
+            result = M_PI;
+        }
     }    
         return result;
         
