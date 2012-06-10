@@ -48,6 +48,23 @@
     
 }
 
++ (BOOL)isDoubleOperation:(id)operation
+{
+    NSSet *mySet;
+    NSString *plus= @"+";
+    NSString *minus=@"-";
+    NSString *multiply=@"*";
+    NSString *divide=@"/";
+    
+    mySet = [NSSet setWithObjects: plus,minus,multiply,divide,nil];
+    
+    if ([mySet containsObject:operation] ){
+        return TRUE;
+    }
+    return FALSE;
+    
+}
+
 - (double)performOperation:(NSString *)operation
 {
     [self.programStack addObject:operation];
@@ -56,8 +73,51 @@
      
 + (NSString *)descriptionOfProgram:(id)program
 {
-    return @"Implement this in Homework #2";
+    // test if operand using the operand helper
+    NSMutableArray *a = [NSMutableArray arrayWithCapacity:0];
+    NSString *ret = [NSString stringWithString:@""];
+    // NSLog(@"entering description of program with %@",[program description]);
+    
+    id item = [self popOperand:program];
+    if ([item isKindOfClass:[NSNumber class]]){
+        NSLog(@"adding number %@",item);
+        [a addObject:item];
+    }
+    if ([self isDoubleOperation: item]){
+        NSMutableArray *b = [NSMutableArray arrayWithCapacity:0];
+        [b addObject:[self descriptionOfProgram:program]];
+        [b addObject:item];
+        [b addObject:[self descriptionOfProgram:program]];
+        [a addObject:b];
+    
+        
+        
+    }
+    
+    ret = [a description];
+    NSLog(@"%@",ret);
+    return ret;
+    // assemble the pieces and return a string
+    
 }
+
++ (id)popOperand:(id)program    // this should pop an operand off the stack
+{
+    id topOfStack = [program lastObject];
+    if (topOfStack) [program removeLastObject];
+    return topOfStack;
+}
+
+
+
+
+// need a method to check what type of operand has been popped
+// use NSSet.  If sqrt, then you would need to know 1.  If + you would need to know 2
+// NSSet needs to be populated with the right information
+// the key should be an NSString object and the value should be a number
+
+//
+
 
 + (double)popOperandOffProgramStack:(NSMutableArray *)stack
 {
@@ -90,7 +150,7 @@
         } else if ([@"π" isEqualToString:operation]){
             result = M_PI;
         }
-    }    
+    }
         return result;
         
 
@@ -100,9 +160,16 @@
 + (double)runProgram:(id)program
 {
     NSMutableArray *stack;
+    NSMutableArray *stackForDescription;
     if ([program isKindOfClass:[NSArray class]]) {
         stack = [program mutableCopy];
+        stackForDescription = [program mutableCopy];
+        NSLog([stackForDescription description]);
     }
+    NSString *programDescription = [NSString stringWithString:@""];
+    programDescription = [self descriptionOfProgram:stackForDescription];   
+    
+    
     return [self popOperandOffProgramStack:stack];
 }
 @end

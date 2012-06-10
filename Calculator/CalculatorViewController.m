@@ -29,7 +29,7 @@
 }
 
 - (void)updateBrainStatus:(NSString *) s {
-    NSLog(@"updateBrainStatus %@", s);
+    //NSLog(@"updateBrainStatus %@", s);
     self.brainStatus.text = [[self.brainStatus.text stringByAppendingString: @" "] stringByAppendingString:s];
     
 }
@@ -37,7 +37,7 @@
 - (IBAction)digitPressed:(UIButton *)sender {
     NSString *digit= [sender currentTitle];
     if (self.userIsInTheMiddleOfEnteringANumber){
-        NSLog(@"User touched %@", digit);
+       // NSLog(@"User touched %@", digit);
         self.display.text = [self.display.text stringByAppendingString:digit];
         
     }else {
