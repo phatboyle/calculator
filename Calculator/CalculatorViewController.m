@@ -30,7 +30,8 @@
 
 - (void)updateBrainStatus:(NSString *) s {
     //NSLog(@"updateBrainStatus %@", s);
-    self.brainStatus.text = [[self.brainStatus.text stringByAppendingString: @" "] stringByAppendingString:s];
+    // self.brainStatus.text = [[self.brainStatus.text stringByAppendingString: @" "] stringByAppendingString:s];
+    self.brainStatus.text = [s description];
     
 }
 
@@ -50,7 +51,6 @@
     NSLog(@"arrived enterPressed");
     [self.brain pushOperand:[self.display.text doubleValue]];
     self.userIsInTheMiddleOfEnteringANumber = NO;
-    [self updateBrainStatus:self.display.text];
     
 }
 - (IBAction)decimalPressed {
@@ -75,14 +75,17 @@
 
 - (IBAction)operationPressed:(id)sender 
 {
-    NSLog(@"operationPressed %@ ", [sender currentTitle] );
+    //NSLog(@"operationPressed %@ ", [sender currentTitle] );
     if (self.userIsInTheMiddleOfEnteringANumber) {
         [self enterPressed ];
     }
-    [self updateBrainStatus:[sender currentTitle]];
+//    [self updateBrainStatus:[sender currentTitle]];
 
     NSString *operation = [sender currentTitle];
     double result = [self.brain performOperation:operation];
+    NSString *x = [self.brain getDescriptionOfProgram];
+    NSLog(@"controller description is %@ ",x);
+    [self updateBrainStatus:[x description]];
     self.display.text = [NSString stringWithFormat:@"%g", result];
 }
 

@@ -31,6 +31,13 @@
     return [self.programStack copy];
 }
 
+-(NSMutableArray *)getMutableProgram
+{
+    return [self.programStack mutableCopy];
+    
+}
+
+
 -(void)pushOperand:(double)operand
 {
     [self.programStack addObject:[NSNumber numberWithDouble:operand]];
@@ -65,58 +72,108 @@
     
 }
 
++ (BOOL)isSingleOperation:(id)operation
+{
+    NSSet *mySet;
+    NSString *sqrt=@"√";
+    NSString *pi=@"π";
+    NSString *sin=@"sin";
+    NSString *cos=@"cos";
+    mySet = [NSSet setWithObjects: sqrt,pi,sin,cos, nil];
+    if ([mySet containsObject:operation]){
+        return true;
+        
+    }
+    return false;
+}
++ (BOOL)isNoOperandOperation:(id)operation
+{
+    NSSet *mySet;
+    NSString *pi=@"π";
+    mySet = [NSSet setWithObjects: pi, nil];
+    if ([mySet containsObject:operation]){
+        return true;
+    }
+    return false;
+}
++ (BOOL)isVariable:(id)operation
+{
+    NSSet *mySet;
+    NSString *a=@"a";
+    NSString *b=@"b";
+    NSString *c=@"c";
+    mySet = [NSSet setWithObjects: a,b,c, nil];
+    if ([mySet containsObject:operation]){
+        return true;
+    }
+    return false;
+}
+
 - (double)performOperation:(NSString *)operation
 {
     [self.programStack addObject:operation];
+    
     return [[self class] runProgram:self.program];
 }
+
++ (double)runProgram:(id)program
+{
+    NSMutableArray *stack;
+    if ([program isKindOfClass:[NSArray class]]) {
+        stack = [program mutableCopy];
+    }
+    return [self popOperandOffProgramStack:stack];
+}
+
+
+- (NSString *)getDescriptionOfProgram
+{
+    NSString *x = @"";
+    NSMutableArray *y = [self getMutableProgram];
+    x=[[self class] descriptionOfProgram:y];
+    return x;
+    NSLog(@"description is: %@",x);
+}
      
-+ (NSString *)descriptionOfProgram:(id)program
++ (NSString *)descriptionOfProgram:(NSMutableArray *)stack
 {
-    // test if operand using the operand helper
-    NSMutableArray *a = [NSMutableArray arrayWithCapacity:0];
-    NSString *ret = [NSString stringWithString:@""];
-    // NSLog(@"entering description of program with %@",[program description]);
+    NSMutableString *programFragment = [NSMutableString stringWithString:@""];
+    NSLog(@"entering description of program with %@ ",[stack description]);
     
-    id item = [self popOperand:program];
-    if ([item isKindOfClass:[NSNumber class]]){
-        NSLog(@"adding number %@",item);
-        [a addObject:item];
-    }
-    if ([self isDoubleOperation: item]){
-        NSMutableArray *b = [NSMutableArray arrayWithCapacity:0];
-        [b addObject:[self descriptionOfProgram:program]];
-        [b addObject:item];
-        [b addObject:[self descriptionOfProgram:program]];
-        [a addObject:b];
+    id topOfStack = [stack lastObject];
+    if (topOfStack) [stack removeLastObject] ;
     
-        
-        
+    if ([topOfStack isKindOfClass:[NSNumber class]])
+    {
+        [programFragment appendFormat:@"%g",[topOfStack doubleValue]];
     }
     
-    ret = [a description];
-    NSLog(@"%@",ret);
-    return ret;
-    // assemble the pieces and return a string
+    else if ([self isDoubleOperation: topOfStack])
+    {
+        NSString *firstOperand = [self descriptionOfProgram:stack];
+        NSString *secondOperand = [self descriptionOfProgram:stack];
+        [programFragment appendFormat:@"(%@ %@ %@)",secondOperand,topOfStack,firstOperand];
+        
+    } else if ([self isSingleOperation:topOfStack])
+    {
+        [programFragment appendFormat: @"(%@ %@)",topOfStack, [self descriptionOfProgram:stack]];
+    } else if ([self isNoOperandOperation: topOfStack])
+    {
+        [programFragment appendFormat: @"%@",topOfStack];
+    } else if ([self isVariable: topOfStack])
+    {
+        [programFragment appendFormat: @"%@",topOfStack];
+    } else if ([stack count]){
+        [programFragment appendFormat:@",",[self descriptionOfProgram:stack] ];        
+    }
+
+    
+    
+    //NSLog(@"%@",ret);
+    return programFragment;
     
 }
 
-+ (id)popOperand:(id)program    // this should pop an operand off the stack
-{
-    id topOfStack = [program lastObject];
-    if (topOfStack) [program removeLastObject];
-    return topOfStack;
-}
-
-
-
-
-// need a method to check what type of operand has been popped
-// use NSSet.  If sqrt, then you would need to know 1.  If + you would need to know 2
-// NSSet needs to be populated with the right information
-// the key should be an NSString object and the value should be a number
-
-//
 
 
 + (double)popOperandOffProgramStack:(NSMutableArray *)stack
@@ -151,25 +208,10 @@
             result = M_PI;
         }
     }
-        return result;
+    return result;
         
 
 }
 
 
-+ (double)runProgram:(id)program
-{
-    NSMutableArray *stack;
-    NSMutableArray *stackForDescription;
-    if ([program isKindOfClass:[NSArray class]]) {
-        stack = [program mutableCopy];
-        stackForDescription = [program mutableCopy];
-        NSLog([stackForDescription description]);
-    }
-    NSString *programDescription = [NSString stringWithString:@""];
-    programDescription = [self descriptionOfProgram:stackForDescription];   
-    
-    
-    return [self popOperandOffProgramStack:stack];
-}
 @end

@@ -16,4 +16,5 @@
 + (NSString *)descriptionOfProgram:(id)program;
 + (double)runProgram:(id)program;
 - (void)clearOperands;
+- (NSString *)getDescriptionOfProgram;
 @end
