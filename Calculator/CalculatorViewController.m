@@ -17,8 +17,10 @@
 
 @implementation CalculatorViewController
 
+
 @synthesize display;
 @synthesize brainStatus;
+@synthesize variableDisplay;
 @synthesize userIsInTheMiddleOfEnteringANumber;
 @synthesize brain = _brain;
 
@@ -35,6 +37,42 @@
     
 }
 
+- (IBAction)undoPressed {
+    NSLog(@"undoPressed");
+    if ([self.display.text length]< 1){
+        self.userIsInTheMiddleOfEnteringANumber = NO;
+        [self.brain popOffProgramStack];
+    }
+
+    if (userIsInTheMiddleOfEnteringANumber){
+        self.display.text = [self.display.text substringToIndex:[self.display.text length]-1];
+        [self.brain popOffProgramStack];
+    } else {
+        [self.brain popOffProgramStack];
+
+    }
+    
+    [self operationPressed:nil];    // rerun with variables
+}
+
+
+- (IBAction)testPressed:(UIButton *)sender {
+    //NSLog(@"entering testPressed:sender");
+    //NSLog(@"sender string is: %@", [sender currentTitle]);
+    if ([[sender currentTitle] isEqualToString:@"Test1"]){
+        [self.brain setVariableDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:1],@"x",[NSNumber numberWithInt:2],@"y", nil]];
+    //    NSLog(@"Test1 pressed");
+    }
+    if ([[sender currentTitle] isEqualToString:@"Test2"]){
+        [self.brain setVariableDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:5],@"x",[NSNumber numberWithInt:10],@"y", nil]];       
+    //    NSLog(@"Test2 pressed");
+    }
+    
+    [self operationPressed:nil];
+    
+}
+
+
 - (IBAction)digitPressed:(UIButton *)sender {
     NSString *digit= [sender currentTitle];
     if (self.userIsInTheMiddleOfEnteringANumber){
@@ -48,7 +86,7 @@
     
 }
 - (IBAction)enterPressed {
-    NSLog(@"arrived enterPressed");
+    //NSLog(@"arrived enterPressed");
     [self.brain pushOperand:[self.display.text doubleValue]];
     self.userIsInTheMiddleOfEnteringANumber = NO;
     
@@ -75,23 +113,38 @@
 
 - (IBAction)operationPressed:(id)sender 
 {
-    //NSLog(@"operationPressed %@ ", [sender currentTitle] );
     if (self.userIsInTheMiddleOfEnteringANumber) {
         [self enterPressed ];
     }
-//    [self updateBrainStatus:[sender currentTitle]];
+    double result=0;
+    if (sender){
+        NSString *operation = [sender currentTitle];        
+        result = [self.brain performOperation:operation];
 
-    NSString *operation = [sender currentTitle];
-    double result = [self.brain performOperation:operation];
-    NSString *x = [self.brain getDescriptionOfProgram];
-    NSLog(@"controller description is %@ ",x);
-    [self updateBrainStatus:[x description]];
+    } else {
+        result = [self.brain performOperation:nil];
+
+    }
+    
+    
+    // update description
+    NSString *descriptionString = [self.brain getDescriptionOfProgram];
+    NSLog(@"controller description is %@ ",descriptionString);
+    [self updateBrainStatus:[descriptionString description]];
+    
+    // update result
     self.display.text = [NSString stringWithFormat:@"%g", result];
+    
+    // update variables display
+    NSString *variablesString = [self.brain getVariablesUsedInProgram];
+    self.variableDisplay.text= variablesString;
+    
 }
 
 - (void)viewDidUnload {
     [self setBrainStatus:nil];
     [self setBrainStatus:nil];
+    [self setVariableDisplay:nil];
     [super viewDidUnload];
 }
 @end

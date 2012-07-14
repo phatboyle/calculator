@@ -13,12 +13,29 @@
 
 @interface CalculatorBrain()
 @property (nonatomic,strong) NSMutableArray *programStack;
+@property (nonatomic) NSDictionary *variableDictionary;
 @end
+
 
 
 @implementation CalculatorBrain
 
+@synthesize variableDictionary=_variableDictionary;
+
 @synthesize programStack = _programStack;
+
+- (void)setVariableDictionary:(NSDictionary *)variableDictionary
+{
+    _variableDictionary = [variableDictionary copy];
+    
+}
+
+- (NSDictionary *)variableDictionary{
+    if (_variableDictionary == nil) {
+        _variableDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0],@"x",[NSNumber numberWithInt:0],@"y", nil];
+    }
+    return _variableDictionary;
+}
 
 - (NSMutableArray *)programStack
 {
@@ -55,6 +72,7 @@
     
 }
 
+
 + (BOOL)isDoubleOperation:(id)operation
 {
     NSSet *mySet;
@@ -72,7 +90,7 @@
     
 }
 
-+ (BOOL)isSingleOperation:(id)operation
++ (BOOL)isSingleOperandOperation:(id)operation
 {
     NSSet *mySet;
     NSString *sqrt=@"√";
@@ -99,10 +117,7 @@
 + (BOOL)isVariable:(id)operation
 {
     NSSet *mySet;
-    NSString *a=@"a";
-    NSString *b=@"b";
-    NSString *c=@"c";
-    mySet = [NSSet setWithObjects: a,b,c, nil];
+    mySet = [NSSet setWithObjects: @"x",@"y", nil];
     if ([mySet containsObject:operation]){
         return true;
     }
@@ -111,20 +126,83 @@
 
 - (double)performOperation:(NSString *)operation
 {
-    [self.programStack addObject:operation];
-    
-    return [[self class] runProgram:self.program];
+    if (operation){
+        [self.programStack addObject:operation];
+    }
+    double x = [[self class] 
+                runProgram:self.program 
+                usingVariableValues: self.variableDictionary];
+    NSLog(@"returning from performOperation with %g", x);
+    return x;
 }
+
 
 + (double)runProgram:(id)program
 {
+    NSLog(@"entering runProgram with %@ ", program);    
     NSMutableArray *stack;
     if ([program isKindOfClass:[NSArray class]]) {
         stack = [program mutableCopy];
     }
-    return [self popOperandOffProgramStack:stack];
+    NSLog(@"runProgram: %@", stack);
+    
+    double x=[self popOperandOffProgramStack:stack]; 
+    NSLog(@"returning from runProgram with: %g",x);
+    return x;
 }
 
++ (double)runProgram:(id)program
+                    usingVariableValues:(NSDictionary *)variableValues
+{
+    NSLog(@"entering runProgram with variables with %@ ", program);
+    NSMutableArray *stack = [[NSMutableArray alloc]init]; 
+        for (id x in program){
+            if ([variableValues objectForKey:[x description]])
+            {
+                [stack addObject:[variableValues objectForKey:[x description]]];
+            } else {
+                [stack addObject:x];
+            }
+        }
+    NSLog(@"exiting runProgram with variables with %@ ",stack);
+    return [self runProgram: stack];
+    
+}
+
+
++ (NSSet *)variablesUsedInProgram:(id)program;
+{
+    // iterate through the program and return a set of strings that are the variables
+    NSMutableSet *variables = [NSMutableSet setWithObjects:nil];
+    for (id x in program){
+        if ([x isKindOfClass:[NSNumber class]]){
+            continue;
+        }
+        else if (([self isNoOperandOperation:x]) || ([self isSingleOperandOperation:x ] || ([self isDoubleOperation:x]))) {
+            continue;
+        } else {
+            [variables addObject:x];
+        }
+    }
+    NSLog(@"variablesUsedInProgram: %@",variables);
+    if ([variables count] > 1){
+        return [[NSSet class] setWithSet:variables];
+    } else {
+        return nil;
+    }
+}
+
+- (NSString *)getVariablesUsedInProgram{
+    NSDictionary *dict = self.variableDictionary;
+    NSMutableString *variablesString = [[NSMutableString alloc]init ];
+    for (id key in dict){
+        id value= [dict objectForKey:key];
+        [variablesString appendFormat:@"%@=%@ ",key,value]; 
+        }
+        
+    
+    return variablesString;
+}
 
 - (NSString *)getDescriptionOfProgram
 {
@@ -137,8 +215,8 @@
      
 + (NSString *)descriptionOfProgram:(NSMutableArray *)stack
 {
-    NSMutableString *programFragment = [NSMutableString stringWithString:@""];
-    NSLog(@"entering description of program with %@ ",[stack description]);
+    NSMutableString *programFragment = [[NSMutableString alloc]init];
+    //NSLog(@"entering description of program with %@ ",[stack description]);
     
     id topOfStack = [stack lastObject];
     if (topOfStack) [stack removeLastObject] ;
@@ -154,7 +232,7 @@
         NSString *secondOperand = [self descriptionOfProgram:stack];
         [programFragment appendFormat:@"(%@ %@ %@)",secondOperand,topOfStack,firstOperand];
         
-    } else if ([self isSingleOperation:topOfStack])
+    } else if ([self isSingleOperandOperation:topOfStack])
     {
         [programFragment appendFormat: @"(%@ %@)",topOfStack, [self descriptionOfProgram:stack]];
     } else if ([self isNoOperandOperation: topOfStack])
@@ -167,13 +245,18 @@
         [programFragment appendFormat:@",",[self descriptionOfProgram:stack] ];        
     }
 
-    
-    
-    //NSLog(@"%@",ret);
     return programFragment;
     
 }
 
+- (id)popOffProgramStack{
+    
+    id topOfStack = [self.programStack lastObject];
+    if (topOfStack){
+        [self.programStack removeLastObject];
+    }
+    return topOfStack;
+}
 
 
 + (double)popOperandOffProgramStack:(NSMutableArray *)stack
