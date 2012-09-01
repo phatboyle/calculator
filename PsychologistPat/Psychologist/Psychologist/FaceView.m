@@ -113,7 +113,7 @@
     CGPoint mouthCP2 = mouthEnd;
     mouthCP2.x -= MOUTH_H * size * 2/3;
     
-    float smile = [self.dataSource smileForFaceView:self]; // this should be delegated! it's our View's data!
+    float smile = [self.dataSource smileForFaceView:self]; // delegated
     
     if (smile > 1.0){
         smile = 1.0;
