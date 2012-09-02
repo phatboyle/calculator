@@ -12,8 +12,8 @@
 
 @interface CalculatorGraphView : UIView
 
-
 @property (nonatomic) CGPoint origin;
 @property (nonatomic) CGFloat scale;
+-(void)pinch:(UIPinchGestureRecognizer *)gesture; 
 
 @end

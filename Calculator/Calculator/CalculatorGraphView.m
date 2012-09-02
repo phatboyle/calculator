@@ -38,6 +38,7 @@
     return self;
 }
 
+
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -55,7 +56,18 @@
 
 }
 
-// put in gesture recognizers
+- (void)pinch:(UIPinchGestureRecognizer *)gesture
+{
+    NSLog(@"in gesture");
+    
+    if ((gesture.state==UIGestureRecognizerStateChanged)|| (gesture.state == UIGestureRecognizerStateEnded)){
+        self.scale *= gesture.scale;
+        gesture.scale=1;
+    }
+}
+
+// put in gesture recognizer for zoom
+
 // put in graphing features
 
 
