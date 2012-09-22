@@ -38,9 +38,19 @@
     return self;
 }
 
+-(void)setScale:(CGFloat)scale
+{
+    if (scale != _scale){
+        _scale = scale;
+        [self setNeedsDisplay];
+    }
+
+}
+
 
 - (void)drawRect:(CGRect)rect
 {
+    NSLog(@"in drawRect");
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGPoint midPoint;
     midPoint.x = self.bounds.origin.x + self.bounds.size.width/2;
