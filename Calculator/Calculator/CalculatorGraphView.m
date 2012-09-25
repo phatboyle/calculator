@@ -38,6 +38,18 @@
     return self;
 }
 
+-(CGPoint)origin{
+    if (!_origin.x && !_origin.y){
+        _origin.x = self.bounds.origin.x + self.bounds.size.width;
+        _origin.y = self.bounds.origin.y + self.bounds.size.height;
+    }
+    return _origin;
+}
+-(CGPoint)setOrigin{
+    
+}
+
+
 -(void)setScale:(CGFloat)scale
 {
     if (scale != _scale){
@@ -76,9 +88,27 @@
     }
 }
 
-// put in gesture recognizer for zoom
+- (void)pan:(UIPanGestureRecognizer *)gesture
+{
+    NSLog(@"in pan");
+    if ((gesture.state == UIGestureRecognizerStateChanged)||(gesture.state == UIGestureRecognizerStateEnded)){
+        CGPoint translation = [gesture translationInView:self];
+        
+        // move the origin of the graph
+        CGPoint axisOrigin = CGPointMake(self.origin.x + translation.x, self.origin.y + translation.y);
+        self.origin = axisOrigin;
+        [gesture setTranslation:CGPointZero inView:self];
+    }
+}
 
-// put in graphing features
+// put in gesture recognizer for pan
+// figure out how to translate the pan
+// erdraw with the new center
+// draw graph
+// ipad
+
+//http://www.i4-apps.com/assignment-3-required-tasks/#more-507
+//https://github.com/jpoetker/cs193p-graphing-calculator/tree/master/GraphingCalculator
 
 
 
