@@ -38,15 +38,18 @@
     return self;
 }
 
+- (void)setOrigin:(CGPoint)origin{
+    if(_origin.x == origin.x && _origin.y == origin.y) return;
+    _origin=origin;
+    [self setNeedsDisplay];
+}
+
 -(CGPoint)origin{
     if (!_origin.x && !_origin.y){
-        _origin.x = self.bounds.origin.x + self.bounds.size.width;
-        _origin.y = self.bounds.origin.y + self.bounds.size.height;
+        _origin.x = self.bounds.origin.x + self.bounds.size.width/2;
+        _origin.y = self.bounds.origin.y + self.bounds.size.height/2;
     }
     return _origin;
-}
--(CGPoint)setOrigin{
-    
 }
 
 
@@ -64,16 +67,16 @@
 {
     NSLog(@"in drawRect");
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGPoint midPoint;
-    midPoint.x = self.bounds.origin.x + self.bounds.size.width/2;
-    midPoint.y = self.bounds.origin.y + self.bounds.size.height/2;
+    //CGPoint midPoint;
+    //midPoint.x = self.bounds.origin.x + self.bounds.size.width/2;
+    //midPoint.y = self.bounds.origin.y + self.bounds.size.height/2;
     
     CGFloat size = self.bounds.size.width/2;
     if (self.bounds.size.height < self.bounds.size.width) size = self.bounds.size.height /2;
     size *= self.scale;
 
     CGContextSetLineWidth(context, 1.0);
-    [AxesDrawer drawAxesInRect:self.bounds originAtPoint:midPoint scale:self.scale*self.contentScaleFactor];
+    [AxesDrawer drawAxesInRect:self.bounds originAtPoint:self.origin scale:self.scale*self.contentScaleFactor];
 
 
 }
@@ -91,7 +94,8 @@
 - (void)pan:(UIPanGestureRecognizer *)gesture
 {
     NSLog(@"in pan");
-    if ((gesture.state == UIGestureRecognizerStateChanged)||(gesture.state == UIGestureRecognizerStateEnded)){
+    if ((gesture.state == UIGestureRecognizerStateChanged)||(gesture.state == UIGestureRecognizerStateEnded))
+    {
         CGPoint translation = [gesture translationInView:self];
         
         // move the origin of the graph
@@ -101,9 +105,7 @@
     }
 }
 
-// put in gesture recognizer for pan
-// figure out how to translate the pan
-// erdraw with the new center
+// set up delegates
 // draw graph
 // ipad
 

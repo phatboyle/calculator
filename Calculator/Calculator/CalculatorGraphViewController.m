@@ -8,14 +8,13 @@
 
 #import "CalculatorGraphViewController.h"
 #import "CalculatorGraphView.h"
+#import "CalculatorBrain.h"
 
-@interface CalculatorGraphViewController ()
+@interface CalculatorGraphViewController () <GraphViewDataSource>
 @property (nonatomic, weak) IBOutlet CalculatorGraphView *graphView;
 @end
 
 @implementation CalculatorGraphViewController
-
-
 
 @synthesize graphView = _graphView;
 
@@ -35,6 +34,14 @@
     [panGesture setMaximumNumberOfTouches:2];
     [self.graphView addGestureRecognizer:panGesture];
      
+}
+
+-(float)YforXValue:(float)xValue inGraphView:(CalculatorGraphView *)sender{
+    // Find the corresponding Y value by passing the x value to the calculator brain
+    id yValue = [CalculatorBrain runProgram:self.program usingVariableValues:
+                 [NSDictionary dictionalryWithObject:[NSNumber numberWithFloat:xValue]
+                                              forKey:@"x"]];
+    return ((NSNumber *)yValue).floatValue;
 }
 
 @end

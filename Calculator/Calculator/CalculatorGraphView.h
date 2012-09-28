@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class CalculatorGraphView;
+
+@protocol GraphViewDataSource
+-(float)YforXValue:(float)xValue inGraphView:(CalculatorGraphView *)sender;
+
+@end
 
 
 @interface CalculatorGraphView : UIView
