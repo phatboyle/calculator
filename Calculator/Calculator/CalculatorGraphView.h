@@ -12,12 +12,14 @@
 
 @protocol GraphViewDataSource
 -(float)YforXValue:(float)xValue inGraphView:(CalculatorGraphView *)sender;
+-(void)storeScale:(float)scale ForGraphView: (CalculatorGraphView *)sender;
 
 @end
 
 
 @interface CalculatorGraphView : UIView
 
+@property (nonatomic, weak) IBOutlet id <GraphViewDataSource> dataSource;
 @property (nonatomic) CGPoint origin;
 @property (nonatomic) CGFloat scale;
 -(void)pinch:(UIPinchGestureRecognizer *)gesture; 

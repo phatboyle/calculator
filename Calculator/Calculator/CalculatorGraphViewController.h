@@ -11,6 +11,7 @@
 
 
 @interface CalculatorGraphViewController : UIViewController
+@property (nonatomic, strong) id program;
 
 
 @end

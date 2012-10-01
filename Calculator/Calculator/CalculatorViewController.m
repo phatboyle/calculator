@@ -8,6 +8,7 @@
 
 #import "CalculatorViewController.h"
 #import "CalculatorBrain.h"
+#import "CalculatorGraphViewController.h"
 
 
 @interface CalculatorViewController ()
@@ -36,6 +37,31 @@
     self.brainStatus.text = [s description];
     
 }
+
+// added runProgram to enable the graphView
+- (double) runProgram:(NSDictionary *) variables {
+        [self.brain setVariableDictionary:variables];
+        return [self.brain performOperation:nil];
+}
+
+- (CalculatorGraphViewController *)graphViewController{
+    return [self.splitViewController.viewControllers lastObject];
+}
+
+- (IBAction)drawGraphPressed{
+    if ([self graphViewController]) {
+        [[self graphViewController] setProgram:self.brain.program];
+        
+    }else {
+        [self performSegueWithIdentifier:@"ShowGraph"  sender:self];
+        
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    [segue.destinationViewController setProgram:self.brain.program];
+}
+
 
 - (IBAction)undoPressed {
     NSLog(@"undoPressed");

@@ -13,4 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *brainStatus;
 @property (weak, nonatomic) IBOutlet UILabel *variableDisplay;
 
+-(double) runProgram:(NSDictionary *)variables;
+
 @end

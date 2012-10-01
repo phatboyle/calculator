@@ -139,22 +139,22 @@
 
 + (double)runProgram:(id)program
 {
-    NSLog(@"entering runProgram with %@ ", program);    
+    //NSLog(@"entering runProgram with %@ ", program);
     NSMutableArray *stack;
     if ([program isKindOfClass:[NSArray class]]) {
         stack = [program mutableCopy];
     }
-    NSLog(@"runProgram: %@", stack);
+    //NSLog(@"runProgram: %@", stack);
     
     double x=[self popOperandOffProgramStack:stack]; 
-    NSLog(@"returning from runProgram with: %g",x);
+    //NSLog(@"returning from runProgram with: %g",x);
     return x;
 }
 
 + (double)runProgram:(id)program
                     usingVariableValues:(NSDictionary *)variableValues
 {
-    NSLog(@"entering runProgram with variables with %@ ", program);
+    //NSLog(@"entering runProgram with variables with %@ ", program);
     NSMutableArray *stack = [[NSMutableArray alloc]init]; 
         for (id x in program){
             if ([variableValues objectForKey:[x description]])
@@ -164,7 +164,7 @@
                 [stack addObject:x];
             }
         }
-    NSLog(@"exiting runProgram with variables with %@ ",stack);
+    //NSLog(@"exiting runProgram with variables with %@ ",stack);
     return [self runProgram: stack];
     
 }
@@ -213,13 +213,18 @@
     NSLog(@"description is: %@",x);
 }
      
-+ (NSString *)descriptionOfProgram:(NSMutableArray *)stack
++ (NSString *)descriptionOfProgram:(id)stack
 {
     NSMutableString *programFragment = [[NSMutableString alloc]init];
     //NSLog(@"entering description of program with %@ ",[stack description]);
     
+    if (![stack isKindOfClass:[NSMutableArray class]]){
+        return Nil; // TODO
+    } 
+    
     id topOfStack = [stack lastObject];
-    if (topOfStack) [stack removeLastObject] ;
+    if (topOfStack) [stack removeLastObject];
+    NSLog(@"descriptionOfProgram");
     
     if ([topOfStack isKindOfClass:[NSNumber class]])
     {
@@ -242,7 +247,7 @@
     {
         [programFragment appendFormat: @"%@",topOfStack];
     } else if ([stack count]){
-        [programFragment appendFormat:@",",[self descriptionOfProgram:stack] ];        
+        [programFragment appendFormat:@"%@",[self descriptionOfProgram:stack]];
     }
 
     return programFragment;
