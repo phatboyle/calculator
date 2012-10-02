@@ -51,6 +51,7 @@
 - (IBAction)drawGraphPressed{
     if ([self graphViewController]) {
         [[self graphViewController] setProgram:self.brain.program];
+       // [[self graphViewController] setGraphView:self.
         
     }else {
         [self performSegueWithIdentifier:@"ShowGraph"  sender:self];

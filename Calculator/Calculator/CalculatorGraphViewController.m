@@ -22,9 +22,15 @@
 @synthesize calculatorViewController=_calculatorViewController;
 @synthesize program=_program;
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation // todo change fofr rotation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.splitViewController.delegate = self;
+    self.splitViewController.presentsWithGesture = NO;
+}
+
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return YES;
 }
 
 - (void)setGraphView: (CalculatorGraphView *)graphView

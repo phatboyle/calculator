@@ -19,7 +19,7 @@
 
 - (void)setup
 {
-    //NSLog(@"entering setup");
+    NSLog(@"entering setup for CalculatorGraphView");
     self.contentMode = UIViewContentModeRedraw;
     self.origin = CGPointMake(0,0);
     self.scale = DEFAULT_SCALE;

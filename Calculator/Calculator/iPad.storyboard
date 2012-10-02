@@ -37,12 +37,12 @@
                     </view>
                     <toolbarItems/>
                     <connections>
-                        <outlet property="view" destination="QZ7-iF-9PF" id="8tB-yw-jaz"/>
+                        <outlet property="view" destination="QZ7-iF-9PF" id="CSV-yH-wen"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8P2-oe-3Su" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1340" y="-725"/>
+            <point key="canvasLocation" x="1246" y="-837"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="OQW-8V-niW">
@@ -50,13 +50,13 @@
                 <splitViewController id="L2r-e3-mKv" sceneMemberID="viewController">
                     <toolbarItems/>
                     <connections>
-                        <segue destination="Oa0-FK-7m8" kind="relationship" relationship="detailViewController" id="WJz-88-MfI"/>
                         <segue destination="N7O-y6-SAU" kind="relationship" relationship="masterViewController" id="PER-1c-vVr"/>
+                        <segue destination="Oa0-FK-7m8" kind="relationship" relationship="detailViewController" id="XRc-AU-OVq"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SVQ-3f-zyu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-216" y="-1389"/>
+            <point key="canvasLocation" x="-288" y="-1221"/>
         </scene>
         <!--Calculator View Controller-->
         <scene sceneID="ufP-31-wAZ">
