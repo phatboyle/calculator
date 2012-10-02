@@ -70,10 +70,14 @@
 
 - (CGPoint) convertToGraphCoordinateFromViewCoordinate:(CGPoint)coordinate
 {
+    
+
     CGPoint graphCoordinate;
     graphCoordinate.x=(coordinate.x - self.origin.x)/self.scale;
     graphCoordinate.y=(self.origin.y - coordinate.y)/self.scale;
     return graphCoordinate;
+
+
 }
 
 
@@ -84,7 +88,6 @@
     CGFloat s = self.scale; // test
     viewCoordinate.x = (coordinate.x * self.scale) + self.origin.x;
     viewCoordinate.y = self.origin.y - (coordinate.y * self.scale);
-    NSLog(@"%f, %f, %f, %f, %f", s, coordinate.x, viewCoordinate.x, coordinate.y, viewCoordinate.y);
 
     return viewCoordinate;
 }
@@ -99,12 +102,12 @@
     
     CGContextSetLineWidth(context, 1.0);
     [AxesDrawer drawAxesInRect:self.bounds originAtPoint:self.origin scale:self.scale];
-    CGFloat csf = self.contentScaleFactor; // test
+    //CGFloat csf = self.contentScaleFactor; // test
     CGContextBeginPath(context);
     
-    CGPoint o = self.origin;  // test
+    //CGPoint o = self.origin;  // test
 
-    CGFloat startingX = - self.origin.x;
+    CGFloat startingX = self.bounds.origin.x;
     CGFloat endingX = startingX + self.bounds.size.width;
     CGFloat increment = 1/self.contentScaleFactor;
     
@@ -112,12 +115,13 @@
     
     for (CGFloat x = startingX; x<= endingX; x+= increment){
         CGPoint coordinate;
-        coordinate.x = x;
+        coordinate.x = x;   // 
         coordinate = [self convertToGraphCoordinateFromViewCoordinate:coordinate];
         coordinate.y = [self.dataSource YforXValue:coordinate.x inGraphView:self];
         coordinate = [self convertToViewCoordinateFromGraphCoordinate:coordinate];
         coordinate.x=x;
         
+//        NSLog(@"%f, %f, %f, %f, %f", s, coordinate.x, viewCoordinate.x, coordinate.y, viewCoordinate.y);
         
         
     
@@ -125,9 +129,12 @@
             CGContextMoveToPoint(context, coordinate.x, coordinate.y);
             firstPoint = NO;
         }
+        
         CGContextAddLineToPoint(context, coordinate.x, coordinate.y);
-       // NSLog(@"%f, %f", coordinate.x, coordinate.y);
+        NSLog(@"plotting x, y = %f, %f", coordinate.x, coordinate.y);
+
     }
+    CGContextStrokePath(context);
 
 }
 
@@ -155,8 +162,7 @@
     }
 }
 
-// set up delegates
-// draw graph
+// fix the title of the graph (may need to change the program to an (id)
 // ipad
 
 //http://www.i4-apps.com/assignment-3-required-tasks/#more-507

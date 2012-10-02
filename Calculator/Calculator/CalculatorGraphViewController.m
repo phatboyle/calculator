@@ -22,7 +22,7 @@
 @synthesize calculatorViewController=_calculatorViewController;
 @synthesize program=_program;
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation // todo change fofr rotation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
