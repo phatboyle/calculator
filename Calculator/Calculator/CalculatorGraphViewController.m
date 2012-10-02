@@ -52,7 +52,7 @@
 
 - (void) refreshGraphViewProperties {
     if (!self.program) return;
-    if (!self.graphView) return;
+    if (!self.graphView) return;    // TODO: why no graphview?
 //    NSString *program = [CalculatorBrain descriptionOfProgram: self.program];
     
     [self.graphView setNeedsDisplay];
