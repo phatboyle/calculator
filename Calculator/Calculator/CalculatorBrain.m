@@ -216,15 +216,17 @@
 + (NSString *)descriptionOfProgram:(id)stack
 {
     NSMutableString *programFragment = [[NSMutableString alloc]init];
-    //NSLog(@"entering description of program with %@ ",[stack description]);
+    NSLog(@"entering CalculatorBrain:descriptionOfProgram with %@ ",[stack description]);
     
-    if (![stack isKindOfClass:[NSMutableArray class]]){
+    if (![stack isKindOfClass:[NSArray class]]){
+        NSLog(@"descriptionOfProgram:stack was nil, exiting");
         return Nil; // TODO
-    } 
+    }
     
-    id topOfStack = [stack lastObject];
-    if (topOfStack) [stack removeLastObject];
-    NSLog(@"descriptionOfProgram");
+    NSMutableArray *s = [stack mutableCopy];
+    
+    id topOfStack = [s lastObject];
+    if (topOfStack) [s removeLastObject];
     
     if ([topOfStack isKindOfClass:[NSNumber class]])
     {
@@ -249,7 +251,8 @@
     } else if ([stack count]){
         [programFragment appendFormat:@"%@",[self descriptionOfProgram:stack]];
     }
-
+    
+    NSLog(@"exiting CalculatorBrain:descriptionOfProgram with %@ ",[programFragment description]);
     return programFragment;
     
 }

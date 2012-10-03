@@ -24,8 +24,6 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.splitViewController.delegate = self;
-    self.splitViewController.presentsWithGesture = NO;
 }
 
 
@@ -50,6 +48,7 @@
 }
 
 -(void) setProgram:(id)program {
+    NSLog(@"CalculatorGraphViewController:setProgram with %@", program);
     _program = program;
     self.title = [NSString stringWithFormat:@"y = %@", [CalculatorBrain descriptionOfProgram: self.program]];
     [self refreshGraphViewProperties];

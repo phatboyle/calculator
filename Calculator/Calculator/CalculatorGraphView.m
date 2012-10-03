@@ -6,6 +6,20 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+//todo
+// fix the title of the graph (may need to change the program to an (id)
+// fix performance (maybe redraw graph after the pan gesture is done
+// add double tap gesture to zoom (or whatever the requirement is)
+// understand what needs to change with the split view controller (look at the implementation from the sample)
+// fix the calculator view
+
+
+//http://www.i4-apps.com/assignment-3-required-tasks/#more-507
+//https://github.com/jpoetker/cs193p-graphing-calculator/tree/master/GraphingCalculator
+
+
+
+
 #import "CalculatorGraphView.h"
 #import "AxesDrawer.h"
 
@@ -15,7 +29,7 @@
 @synthesize origin = _origin;
 @synthesize dataSource = _dataSource;
 
-#define DEFAULT_SCALE 1;
+#define DEFAULT_SCALE 100;
 
 - (void)setup
 {
@@ -85,10 +99,8 @@
 - (CGPoint) convertToViewCoordinateFromGraphCoordinate:(CGPoint)coordinate
 {
     CGPoint viewCoordinate;
-    CGFloat s = self.scale; // test
     viewCoordinate.x = (coordinate.x * self.scale) + self.origin.x;
     viewCoordinate.y = self.origin.y - (coordinate.y * self.scale);
-
     return viewCoordinate;
 }
 
@@ -105,8 +117,6 @@
     //CGFloat csf = self.contentScaleFactor; // test
     CGContextBeginPath(context);
     
-    //CGPoint o = self.origin;  // test
-
     CGFloat startingX = self.bounds.origin.x;
     CGFloat endingX = startingX + self.bounds.size.width;
     CGFloat increment = 1/self.contentScaleFactor;
@@ -131,7 +141,7 @@
         }
         
         CGContextAddLineToPoint(context, coordinate.x, coordinate.y);
-        NSLog(@"plotting x, y = %f, %f", coordinate.x, coordinate.y);
+     //   NSLog(@"plotting x, y = %f, %f", coordinate.x, coordinate.y);
 
     }
     CGContextStrokePath(context);
@@ -140,8 +150,6 @@
 
 - (void)pinch:(UIPinchGestureRecognizer *)gesture
 {
-    //NSLog(@"in gesture");
-    
     if ((gesture.state==UIGestureRecognizerStateChanged)|| (gesture.state == UIGestureRecognizerStateEnded)){
         self.scale *= gesture.scale;
         gesture.scale=1;
@@ -151,7 +159,7 @@
 - (void)pan:(UIPanGestureRecognizer *)gesture
 {
     //NSLog(@"in pan");
-    if ((gesture.state == UIGestureRecognizerStateChanged)||(gesture.state == UIGestureRecognizerStateEnded))
+    if ((gesture.state == UIGestureRecognizerStateEnded))
     {
         CGPoint translation = [gesture translationInView:self];
         
@@ -161,12 +169,6 @@
         [gesture setTranslation:CGPointZero inView:self];
     }
 }
-
-// fix the title of the graph (may need to change the program to an (id)
-// ipad
-
-//http://www.i4-apps.com/assignment-3-required-tasks/#more-507
-//https://github.com/jpoetker/cs193p-graphing-calculator/tree/master/GraphingCalculator
 
 
 
