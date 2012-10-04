@@ -213,17 +213,17 @@
     NSLog(@"description is: %@",x);
 }
      
-+ (NSString *)descriptionOfProgram:(id)stack
++ (NSString *)descriptionOfProgram:(id)program
 {
     NSMutableString *programFragment = [[NSMutableString alloc]init];
-    NSLog(@"entering CalculatorBrain:descriptionOfProgram with %@ ",[stack description]);
+    NSLog(@"entering CalculatorBrain:descriptionOfProgram with %@ ",[program description]);
     
-    if (![stack isKindOfClass:[NSArray class]]){
+    if (![program isKindOfClass:[NSArray class]]){
         NSLog(@"descriptionOfProgram:stack was nil, exiting");
-        return Nil; // TODO
+        return Nil;
     }
     
-    NSMutableArray *s = [stack mutableCopy];
+    NSMutableArray *s = [program mutableCopy];
     
     id topOfStack = [s lastObject];
     if (topOfStack) [s removeLastObject];
@@ -235,21 +235,21 @@
     
     else if ([self isDoubleOperation: topOfStack])
     {
-        NSString *firstOperand = [self descriptionOfProgram:stack];
-        NSString *secondOperand = [self descriptionOfProgram:stack];
+        NSString *firstOperand = [self descriptionOfProgram:s];
+        NSString *secondOperand = [self descriptionOfProgram:s];
         [programFragment appendFormat:@"(%@ %@ %@)",secondOperand,topOfStack,firstOperand];
         
     } else if ([self isSingleOperandOperation:topOfStack])
     {
-        [programFragment appendFormat: @"(%@ %@)",topOfStack, [self descriptionOfProgram:stack]];
+        [programFragment appendFormat: @"(%@ %@)",topOfStack, [self descriptionOfProgram:s]];
     } else if ([self isNoOperandOperation: topOfStack])
     {
         [programFragment appendFormat: @"%@",topOfStack];
     } else if ([self isVariable: topOfStack])
     {
         [programFragment appendFormat: @"%@",topOfStack];
-    } else if ([stack count]){
-        [programFragment appendFormat:@"%@",[self descriptionOfProgram:stack]];
+    } else if ([s count]){
+        [programFragment appendFormat:@"%@",[self descriptionOfProgram:s]];
     }
     
     NSLog(@"exiting CalculatorBrain:descriptionOfProgram with %@ ",[programFragment description]);
