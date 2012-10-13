@@ -10,4 +10,6 @@
 
 @interface PlacesTableViewController : UITableViewController
 
+@property (nonatomic, strong) NSArray *topPlaces;
+
 @end

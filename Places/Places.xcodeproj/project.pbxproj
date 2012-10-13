@@ -20,6 +20,9 @@
 		F11856FB1622548C00398592 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F11856F91622548C00398592 /* MainStoryboard_iPad.storyboard */; };
 		F11856FE1622548C00398592 /* PlacesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F11856FD1622548C00398592 /* PlacesViewController.m */; };
 		F118570A1622687300398592 /* PlacesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F11857091622687300398592 /* PlacesTableViewController.m */; };
+		F131F675162506E80009CB77 /* FlickrFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = F131F674162506E80009CB77 /* FlickrFetcher.m */; };
+		F131F6811626FFAB0009CB77 /* PlacesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F131F6801626FFAB0009CB77 /* PlacesModel.m */; };
+		F131F6AB1629342A0009CB77 /* PlacesContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F131F6AA1629342A0009CB77 /* PlacesContentViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +45,13 @@
 		F11856FD1622548C00398592 /* PlacesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlacesViewController.m; sourceTree = "<group>"; };
 		F11857081622687300398592 /* PlacesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlacesTableViewController.h; sourceTree = "<group>"; };
 		F11857091622687300398592 /* PlacesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlacesTableViewController.m; sourceTree = "<group>"; };
+		F131F672162506E80009CB77 /* FlickrAPIKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrAPIKey.h; sourceTree = "<group>"; };
+		F131F673162506E80009CB77 /* FlickrFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrFetcher.h; sourceTree = "<group>"; };
+		F131F674162506E80009CB77 /* FlickrFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrFetcher.m; sourceTree = "<group>"; };
+		F131F67F1626FFAB0009CB77 /* PlacesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlacesModel.h; sourceTree = "<group>"; };
+		F131F6801626FFAB0009CB77 /* PlacesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlacesModel.m; sourceTree = "<group>"; };
+		F131F6A91629342A0009CB77 /* PlacesContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlacesContentViewController.h; sourceTree = "<group>"; };
+		F131F6AA1629342A0009CB77 /* PlacesContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlacesContentViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +101,13 @@
 				F11856ED1622548C00398592 /* PlacesAppDelegate.h */,
 				F11856EE1622548C00398592 /* PlacesAppDelegate.m */,
 				F11856F61622548C00398592 /* MainStoryboard_iPhone.storyboard */,
+				F131F6A91629342A0009CB77 /* PlacesContentViewController.h */,
+				F131F6AA1629342A0009CB77 /* PlacesContentViewController.m */,
+				F131F67F1626FFAB0009CB77 /* PlacesModel.h */,
+				F131F6801626FFAB0009CB77 /* PlacesModel.m */,
+				F131F672162506E80009CB77 /* FlickrAPIKey.h */,
+				F131F673162506E80009CB77 /* FlickrFetcher.h */,
+				F131F674162506E80009CB77 /* FlickrFetcher.m */,
 				F11857081622687300398592 /* PlacesTableViewController.h */,
 				F11857091622687300398592 /* PlacesTableViewController.m */,
 				F11856F91622548C00398592 /* MainStoryboard_iPad.storyboard */,
@@ -187,6 +204,9 @@
 				F11856EF1622548C00398592 /* PlacesAppDelegate.m in Sources */,
 				F11856FE1622548C00398592 /* PlacesViewController.m in Sources */,
 				F118570A1622687300398592 /* PlacesTableViewController.m in Sources */,
+				F131F675162506E80009CB77 /* FlickrFetcher.m in Sources */,
+				F131F6811626FFAB0009CB77 /* PlacesModel.m in Sources */,
+				F131F6AB1629342A0009CB77 /* PlacesContentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +332,7 @@
 				F11857031622548C00398592 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

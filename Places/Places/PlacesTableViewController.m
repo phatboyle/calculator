@@ -7,12 +7,17 @@
 //
 
 #import "PlacesTableViewController.h"
-
+#import "FlickrFetcher.h"
 @interface PlacesTableViewController ()
 
 @end
 
+
 @implementation PlacesTableViewController
+
+#define CONTENT_KEY @"_content"
+
+@synthesize topPlaces = _topPlaces;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -26,84 +31,49 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.topPlaces = [FlickrFetcher topPlaces];
+    NSArray *sortDescripters = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:CONTENT_KEY ascending:YES]];
+    self.topPlaces = [[FlickrFetcher topPlaces] sortedArrayUsingDescriptors:sortDescripters];
+    
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
-}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [self.topPlaces count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"Top Place Descriptions";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
+    // get the object from the cell
+    // get the description from the object
+    //assign the description to the cell
+    
+    
+    NSDictionary *topPlaceDictionary = [self.topPlaces objectAtIndex:indexPath.row];
+    NSString *description = [topPlaceDictionary objectForKey:CONTENT_KEY];
+    
+    cell.textLabel.text = description;
     
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    NSDictionary *description = [self.topPlaces objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+    [segue destinationViewController] setPhotoList:[FlickrFetcher photosInPlace:description maxResults: 50] withTitle:[[sender textLabel]];
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
