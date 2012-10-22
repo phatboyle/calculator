@@ -6,14 +6,15 @@
 //  Copyright (c) 2012 Pat Boyle. All rights reserved.
 //
 
-#import "PlacesTableViewController.h"
+#import "TopPlacesViewController.h"
 #import "FlickrFetcher.h"
-@interface PlacesTableViewController ()
+#import "DestinationTableViewController.h"
+@interface TopPlacesViewController ()
 
 @end
 
 
-@implementation PlacesTableViewController
+@implementation TopPlacesViewController
 
 #define CONTENT_KEY @"_content"
 
@@ -31,19 +32,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.topPlaces = [FlickrFetcher topPlaces];
     NSArray *sortDescripters = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:CONTENT_KEY ascending:YES]];
     self.topPlaces = [[FlickrFetcher topPlaces] sortedArrayUsingDescriptors:sortDescripters];
-    
-
 }
 
-
 #pragma mark - Table view data source
-
-
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
@@ -55,23 +48,30 @@
     static NSString *CellIdentifier = @"Top Place Descriptions";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    // Configure the cell...
-    // get the object from the cell
-    // get the description from the object
-    //assign the description to the cell
-    
-    
     NSDictionary *topPlaceDictionary = [self.topPlaces objectAtIndex:indexPath.row];
     NSString *description = [topPlaceDictionary objectForKey:CONTENT_KEY];
+    NSString *title = @"";
+    NSString *detail = @"";
     
-    cell.textLabel.text = description;
+    NSLog(@"%@",title);
+    
+    NSRange firstComma = [description rangeOfString:@","];
+    if (firstComma.location == NSNotFound){
+        title = description;
+    } else {
+        title = [description substringToIndex:firstComma.location];
+        detail = [description substringFromIndex:firstComma.location+1];
+    }
+    
+    cell.textLabel.text = title;
+    cell.detailTextLabel.text = detail;
     
     return cell;
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    NSDictionary *description = [self.topPlaces objectAtIndex:self.tableView.indexPathForSelectedRow.row];
-    [segue destinationViewController] setPhotoList:[FlickrFetcher photosInPlace:description maxResults: 50] withTitle:[[sender textLabel]];
+    NSDictionary *placeDictionary = [self.topPlaces objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+    [[segue destinationViewController] setPhotoList:[FlickrFetcher photosInPlace:placeDictionary maxResults:50] withTitle:[[sender textLabel]text]];
 }
 
 
