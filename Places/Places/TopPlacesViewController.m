@@ -33,7 +33,22 @@
 {
     [super viewDidLoad];
     NSArray *sortDescripters = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:CONTENT_KEY ascending:YES]];
-    self.topPlaces = [[FlickrFetcher topPlaces] sortedArrayUsingDescriptors:sortDescripters];
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [spinner startAnimating];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+    dispatch_queue_t downloadQueue = dispatch_queue_create("places.flickrfetcher", NULL);
+    dispatch_async(downloadQueue, ^{
+        NSArray *photos = [[FlickrFetcher topPlaces] sortedArrayUsingDescriptors:sortDescripters];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.topPlaces = photos;
+            [self.tableView reloadData];
+            //NSLog(@"printing inside block viewDidload %@", self.topPlaces );
+        });
+    });
+    dispatch_release(downloadQueue);
+    //NSLog(@"printing exit of viewDidload %@", self.topPlaces );
 }
 
 #pragma mark - Table view data source
@@ -47,14 +62,11 @@
 {
     static NSString *CellIdentifier = @"Top Place Descriptions";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
     NSDictionary *topPlaceDictionary = [self.topPlaces objectAtIndex:indexPath.row];
     NSString *description = [topPlaceDictionary objectForKey:CONTENT_KEY];
     NSString *title = @"";
     NSString *detail = @"";
-    
-    NSLog(@"%@",title);
-    
+    //NSLog(@"%@",title);
     NSRange firstComma = [description rangeOfString:@","];
     if (firstComma.location == NSNotFound){
         title = description;
@@ -62,16 +74,34 @@
         title = [description substringToIndex:firstComma.location];
         detail = [description substringFromIndex:firstComma.location+1];
     }
-    
     cell.textLabel.text = title;
     cell.detailTextLabel.text = detail;
-    
     return cell;
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     NSDictionary *placeDictionary = [self.topPlaces objectAtIndex:self.tableView.indexPathForSelectedRow.row];
-    [[segue destinationViewController] setPhotoList:[FlickrFetcher photosInPlace:placeDictionary maxResults:50] withTitle:[[sender textLabel]text]];
+    dispatch_queue_t dispatchQueue = dispatch_queue_create("places.segue.flickrfetcher", nil);
+    dispatch_async(dispatchQueue, ^(void){
+        
+        UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+        [spinner startAnimating];
+        
+        
+        
+        NSArray* photos = [FlickrFetcher photosInPlace:placeDictionary maxResults:50];
+    
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[segue destinationViewController] setPhotoList:photos
+                                                   withTitle:[[sender textLabel] text]];
+            [[[ segue destinationViewController] tableView] reloadData];
+            
+            [spinner stopAnimating];
+        });
+    });
+    dispatch_release(dispatchQueue);
 }
 
 

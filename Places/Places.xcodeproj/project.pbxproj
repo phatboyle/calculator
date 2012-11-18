@@ -21,7 +21,6 @@
 		F131F6C31629F6A00009CB77 /* DestinationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F131F6C21629F6A00009CB77 /* DestinationTableViewController.m */; };
 		F131F6D2162A0CCB0009CB77 /* iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F131F6D1162A0CCB0009CB77 /* iPhone.storyboard */; };
 		F131F6D5162A7BB80009CB77 /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F131F6D4162A7BB80009CB77 /* ImageViewController.m */; };
-		F131F6DB162A82BC0009CB77 /* IMG_0003.JPG in Resources */ = {isa = PBXBuildFile; fileRef = F131F6DA162A82BC0009CB77 /* IMG_0003.JPG */; };
 		F131F6EA162B9CA80009CB77 /* RecentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F131F6E9162B9CA70009CB77 /* RecentTableViewController.m */; };
 		F1F6B22316325A4E009BD9B7 /* DiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F1F6B22216325A4E009BD9B7 /* DiskCache.m */; };
 /* End PBXBuildFile section */
@@ -50,7 +49,6 @@
 		F131F6D1162A0CCB0009CB77 /* iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPhone.storyboard; sourceTree = "<group>"; };
 		F131F6D3162A7BB80009CB77 /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
 		F131F6D4162A7BB80009CB77 /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
-		F131F6DA162A82BC0009CB77 /* IMG_0003.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0003.JPG; sourceTree = "<group>"; };
 		F131F6E8162B9CA70009CB77 /* RecentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentTableViewController.h; sourceTree = "<group>"; };
 		F131F6E9162B9CA70009CB77 /* RecentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentTableViewController.m; sourceTree = "<group>"; };
 		F1F6B22116325A4E009BD9B7 /* DiskCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiskCache.h; sourceTree = "<group>"; };
@@ -142,7 +140,6 @@
 				F1F6B22216325A4E009BD9B7 /* DiskCache.m */,
 				F131F6E8162B9CA70009CB77 /* RecentTableViewController.h */,
 				F131F6E9162B9CA70009CB77 /* RecentTableViewController.m */,
-				F131F6DA162A82BC0009CB77 /* IMG_0003.JPG */,
 				F131F6D3162A7BB80009CB77 /* ImageViewController.h */,
 				F131F6D4162A7BB80009CB77 /* ImageViewController.m */,
 				F131F6C11629F6A00009CB77 /* DestinationTableViewController.h */,
@@ -210,7 +207,6 @@
 				F11856F31622548C00398592 /* Default@2x.png in Resources */,
 				F11856F51622548C00398592 /* Default-568h@2x.png in Resources */,
 				F131F6D2162A0CCB0009CB77 /* iPhone.storyboard in Resources */,
-				F131F6DB162A82BC0009CB77 /* IMG_0003.JPG in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +299,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Places/Places-Prefix.pch";
 				INFOPLIST_FILE = "Places/Places-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -314,6 +311,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Places/Places-Prefix.pch";
 				INFOPLIST_FILE = "Places/Places-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

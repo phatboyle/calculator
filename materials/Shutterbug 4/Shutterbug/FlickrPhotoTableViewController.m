@@ -12,11 +12,24 @@
 #import "FlickrPhotoAnnotation.h"
 
 @interface FlickrPhotoTableViewController() <MapViewControllerDelegate>
+
+@property (nonatomic, weak) IBOutlet UIActivityIndicatorView *spinner;
+
 @end
 
 @implementation FlickrPhotoTableViewController
 
 @synthesize photos = _photos;
+//@synthesize spinner = _spinner;
+
+/*
+- (UIActivityIndicatorView*) spinner {
+    if !_spinner {
+    }
+return spinner;
+
+}
+ */
 
 - (IBAction)refresh:(id)sender
 {
@@ -24,8 +37,12 @@
     // (if not, it can skip the spinner)
     // that way this method can be a little more generic
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.frame = CGRectMake(0.0,0.0, 40.0, 40.0);
+    spinner.center = self.view.center;
+    [self.view addSubview:spinner];
     [spinner startAnimating];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+    
+    //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
     
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
     dispatch_async(downloadQueue, ^{
@@ -33,6 +50,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             self.navigationItem.rightBarButtonItem = sender;
             self.photos = photos;
+            [spinner stopAnimating];
         });
     });
     dispatch_release(downloadQueue);

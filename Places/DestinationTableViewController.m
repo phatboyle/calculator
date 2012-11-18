@@ -108,7 +108,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     NSDictionary *imageDictionary = [self.photos objectAtIndex:self.tableView.indexPathForSelectedRow.row];
-    [[segue destinationViewController ] setImagex:imageDictionary withTitle:self.title];
+    [[segue destinationViewController ] setImage:imageDictionary withTitle:self.title];
     
 }
 

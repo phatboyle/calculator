@@ -4,17 +4,17 @@
    version = "1.0">
    <FileBreakpoints>
       <FileBreakpoint
-         shouldBeEnabled = "No"
+         shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Places/main.m"
-         timestampString = "371798758.671743"
+         filePath = "Places/DiskCache.m"
+         timestampString = "374467679.908042"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "25"
-         endingLineNumber = "25"
-         landmarkName = "main()"
-         landmarkType = "7">
+         startingLineNumber = "87"
+         endingLineNumber = "87"
+         landmarkName = "+trimCache"
+         landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
    <ExceptionBreakpoints>

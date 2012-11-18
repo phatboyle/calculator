@@ -11,6 +11,6 @@
 @interface ImageViewController : UIViewController
 
 @property (nonatomic, strong) NSDictionary *photoDict;
--(void)setImagex:(NSDictionary *)pd withTitle:(NSString *)title;
+-(void)setImage:(NSDictionary *)photo withTitle:(NSString *)title;
 
 @end

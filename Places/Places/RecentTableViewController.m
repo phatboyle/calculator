@@ -85,7 +85,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     NSDictionary *imageDict = [self.photoList objectAtIndex:self.tableView.indexPathForSelectedRow.row];
-    [[segue destinationViewController] setImagex:imageDict withTitle:self.title];
+    [[segue destinationViewController] setImage:imageDict withTitle:self.title];
 }
 
 #pragma mark - Table view delegate
