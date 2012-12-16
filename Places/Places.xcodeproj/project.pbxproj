@@ -44,8 +44,8 @@
 		F131F672162506E80009CB77 /* FlickrAPIKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrAPIKey.h; sourceTree = "<group>"; };
 		F131F673162506E80009CB77 /* FlickrFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrFetcher.h; sourceTree = "<group>"; };
 		F131F674162506E80009CB77 /* FlickrFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrFetcher.m; sourceTree = "<group>"; };
-		F131F6C11629F6A00009CB77 /* DestinationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DestinationTableViewController.h; path = ../DestinationTableViewController.h; sourceTree = "<group>"; };
-		F131F6C21629F6A00009CB77 /* DestinationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DestinationTableViewController.m; path = ../DestinationTableViewController.m; sourceTree = "<group>"; };
+		F131F6C11629F6A00009CB77 /* DestinationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DestinationTableViewController.h; sourceTree = "<group>"; };
+		F131F6C21629F6A00009CB77 /* DestinationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DestinationTableViewController.m; sourceTree = "<group>"; };
 		F131F6D1162A0CCB0009CB77 /* iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPhone.storyboard; sourceTree = "<group>"; };
 		F131F6D3162A7BB80009CB77 /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
 		F131F6D4162A7BB80009CB77 /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };

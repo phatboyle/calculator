@@ -7,12 +7,24 @@
 //
 
 #import "DestinationTableViewController.h"
+#import "ImageViewController.h"
+#import "FlickrAnnotation.h"
+#import "MapViewController.h"
 
 @interface DestinationTableViewController ()
 
 @end
 
 @implementation DestinationTableViewController
+
+@synthesize photos = _photos;
+
+/*
+-(void)setPhotos:(NSArray *)photos{
+    _photos = photos;
+    NSLog(@"setPhotos setting %d", [photos count]);
+}
+ */
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -26,6 +38,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -42,29 +56,85 @@
 
 #pragma mark - Table view data source
 
+/*
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
+ */
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    NSInteger x =[[self photos] count];
+    NSLog(@"number of rows %d", x);
+    return x;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"Place Descriptions";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    // Configure the cell...
+    NSDictionary *photosInPlace = [self.photos objectAtIndex:indexPath.row];
     
+    NSString *title = [photosInPlace valueForKey:@"title"];
+    NSString *description = [photosInPlace valueForKeyPath:@"description._content"];
+    
+    title = [title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    description = [description stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    if (title && ![title isEqualToString:@""]){
+        cell.textLabel.text=title;
+        cell.detailTextLabel.text=description;
+    } else if (description && ![description isEqualToString:@""]){
+        cell.textLabel.text=description;
+        cell.detailTextLabel.text=@"";
+    } else {
+        cell.textLabel.text = @"Unknown";
+        cell.detailTextLabel.text=@"";
+    }
     return cell;
 }
+
+- (void)setPhotoList: (NSArray *)photoList withTitle:(NSString *)title{
+    self.photos=photoList;
+    NSInteger x =[self.photos count];
+    NSLog(@"number of rows %d", x);
+    
+    self.title=title;
+    
+}
+
+- (NSArray*) getAnnotations{
+    NSMutableArray* annoList = [NSMutableArray arrayWithCapacity:[self.photos count]];
+    for (NSDictionary* p in self.photos){
+        FlickrAnnotation* f = [FlickrAnnotation annotation:p];
+        NSLog(@"title: %@", [f title]);
+        NSLog(@"title: %@", [f subtitle]);
+        NSLog(@"lat: %f", [f coordinate].latitude);
+        NSLog(@"long: %f", [f coordinate].longitude);
+        
+        [annoList addObject: f];
+    }
+    NSLog(@"print annolist %@", annoList);
+    return annoList;
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"loadMap"]){
+        NSLog(@"prepareForSegue");
+        [[segue destinationViewController] setAnnotations:self.getAnnotations];
+    }
+    if ([segue.identifier isEqualToString:@"showPhoto"]){
+        NSDictionary *imageDictionary = [self.photos objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+        [[segue destinationViewController] setImage:imageDictionary withTitle:self.title];
+    }
+}
+
 
 /*
 // Override to support conditional editing of the table view.
